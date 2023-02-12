@@ -116,3 +116,6 @@ exp/json
 tmp_*/
 example/res/
 data/
+examples/
+
+.vscode-upload.json

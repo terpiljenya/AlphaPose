@@ -7,12 +7,14 @@
 import os
 
 import numpy as np
-from tkinter import _flatten
-
 from alphapose.models.builder import DATASET
 from alphapose.utils.bbox import bbox_clip_xyxy, bbox_xywh_to_xyxy
 
 from .custom import CustomDataset
+
+# from tkinter import _flatten
+
+
 
 
 @DATASET.register_module
@@ -35,11 +37,11 @@ class Halpe_68_noface(CustomDataset):
     CustomDataset.lower_body_ids = (11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24, 25)
     """Joint pairs which defines the pairs of joint to be swapped
         when the image is flipped horizontally."""
-    joint_pairs =  [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], 
-                    [20, 21], [22, 23], [24, 25], [26, 47], [27, 48], [28, 49], [29, 50], [30, 51], 
-                    [31, 52], [32, 53], [33, 54], [34, 55], [35, 56], [36, 57], [37, 58], [38, 59], 
+    joint_pairs =  [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16],
+                    [20, 21], [22, 23], [24, 25], [26, 47], [27, 48], [28, 49], [29, 50], [30, 51],
+                    [31, 52], [32, 53], [33, 54], [34, 55], [35, 56], [36, 57], [37, 58], [38, 59],
                     [39, 60], [40, 61], [41, 62], [42, 63], [43, 64], [44, 65], [45, 66], [46, 67]]
-                
+
 
     def _load_jsons(self):
         """Load all image paths and labels from JSON annotation files into buffer."""
@@ -83,7 +85,7 @@ class Halpe_68_noface(CustomDataset):
 
         for obj in objs:
             obj['keypoints'] = obj['keypoints'][:26*3] + obj['keypoints'][-42*3:]
-            
+
             contiguous_cid = self.json_id_to_contiguous[obj['category_id']]
             if contiguous_cid >= self.num_class:
                 # not class of interest
@@ -100,7 +102,7 @@ class Halpe_68_noface(CustomDataset):
                 continue
             if 'num_keypoints' in obj and obj['num_keypoints'] == 0:
                 continue
-                
+
             # joints 3d: (num_joints, 3, 2); 3 is for x, y, z; 2 is for position, visibility
             joints_3d = np.zeros((self.num_joints, 3, 2), dtype=np.float32)
             for i in range(self.num_joints):

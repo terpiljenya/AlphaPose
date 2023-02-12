@@ -7,11 +7,10 @@
 import os
 
 import numpy as np
-from tkinter import _flatten
-from pycocotools.coco import COCO
-
 from alphapose.models.builder import DATASET
 from alphapose.utils.bbox import bbox_clip_xyxy, bbox_xywh_to_xyxy
+# from tkinter import _flatten
+from pycocotools.coco import COCO
 
 from .custom import CustomDataset
 
@@ -67,7 +66,7 @@ class Halpe_coco_wholebody_26(CustomDataset):
         image_ids = sorted(_coco.getImgIds())
         for entry in _coco.loadImgs(image_ids):
             abs_path = os.path.join(self._root, self._img_prefix, entry['file_name'])
-            
+
             if not os.path.exists(abs_path):
                 raise IOError('Image: {} not exists.'.format(abs_path))
             label = self._check_load_keypoints(_coco, entry)
@@ -90,7 +89,7 @@ class Halpe_coco_wholebody_26(CustomDataset):
             v: k for k, v in enumerate(_coco.getCatIds())}
 
         # iterate through the annotations
-        image_ids = sorted(_coco.getImgIds())  
+        image_ids = sorted(_coco.getImgIds())
         for entry in _coco.loadImgs(image_ids):
             dirname, filename = entry['coco_url'].split('/')[-2:]
             abs_path = os.path.join(self._root_2, dirname, filename)
